@@ -1,0 +1,25 @@
+nama_minuman,kalori,gula,lemak,natrium,kategori
+Coca Cola 330ml,140,39,0,45,tidak_sehat
+Sprite 330ml,140,35,0,75,tidak_sehat
+Fanta Orange 330ml,150,40,0,50,tidak_sehat
+Pepsi 330ml,140,38,0,40,tidak_sehat
+Seven Up 330ml,120,32,0,60,tidak_sehat
+Air Mineral 600ml,0,0,0,0,sehat
+Air Putih 1000ml,0,0,0,0,sehat
+Aqua 600ml,0,0,0,0,sehat
+Teh Botol Sosro 350ml,80,20,0,0,kurang_sehat
+Teh Pucuk 350ml,90,22,0,5,kurang_sehat
+Pocari Sweat 500ml,120,28,0,300,kurang_sehat
+Gatorade 500ml,130,31,0,280,kurang_sehat
+Jus Jeruk Segar 250ml,60,14,0,10,sehat
+Jus Apel Natural 250ml,70,16,0,8,sehat
+Smoothie Pisang 300ml,100,18,0.5,15,kurang_sehat
+Kopi Hitam 250ml,5,0,0.2,0,sehat
+Kopi Dengan Susu 250ml,80,8,3,50,kurang_sehat
+Susu Coklat 200ml,150,20,3.5,100,kurang_sehat
+Susu Putih 200ml,130,11,3.5,120,sehat
+Kopi Espresso 30ml,2,0,0,0,sehat
+Red Bull 250ml,110,27,0,200,tidak_sehat
+Monster Energy 355ml,160,37,0,350,tidak_sehat
+Vitamin Water 500ml,40,9,0,50,kurang_sehat
+Tropicana Orange 250ml,70,16,0,20,sehat

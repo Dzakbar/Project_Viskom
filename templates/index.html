@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🥤 Beverage Health Classifier</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 10px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9ff;
+        }
+
+        .upload-area:hover {
+            background: #f0f0ff;
+            border-color: #764ba2;
+        }
+
+        .upload-area input[type="file"] {
+            display: none;
+        }
+
+        .upload-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .upload-text {
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .upload-text small {
+            display: block;
+            margin-top: 10px;
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        .result-section {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .result-section.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .status-box {
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .status-box.sehat {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+        }
+
+        .status-box.kurang_sehat {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+        }
+
+        .status-box.tidak_sehat {
+            background: #f8d7da;
+            border-left: 5px solid #dc3545;
+        }
+
+        .status-label {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .confidence {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .nutrition-item {
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e0e0ff;
+        }
+
+        .nutrition-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nutrition-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 30px 0;
+        }
+
+        .demo-section {
+            margin-top: 30px;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .demo-item {
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .demo-item:hover {
+            background: #f0f0ff;
+            transform: translateX(5px);
+        }
+
+        .demo-item-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .demo-item-result {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        .ocr-text {
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            max-height: 150px;
+            overflow-y: auto;
+            border-left: 3px solid #667eea;
+            margin: 15px 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .nutrition-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+        }
+
+        .button:active {
+            transform: scale(0.95);
+        }
+
+        .button.secondary {
+            background: #667eea;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🥤 Beverage Health Classifier</h1>
+            <p>Klasifikasi Kesehatan Minuman dengan OCR + Machine Learning</p>
+        </header>
+
+        <div class="main-grid">
+            <!-- Upload Section -->
+            <div class="card">
+                <h2>📸 Upload Gambar Label</h2>
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📷</div>
+                    <div class="upload-text">
+                        Klik atau drag gambar label nutrisi
+                        <small>PNG, JPG, JPEG, GIF, BMP (Max 16MB)</small>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/*">
+                </div>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Processing gambar dengan OCR...</p>
+                </div>
+
+                <div class="error" id="error"></div>
+
+                <div class="result-section" id="uploadResult">
+                    <img id="uploadedImage" style="width: 100%; border-radius: 8px; margin-top: 20px;">
+                    
+                    <h3 style="margin-top: 20px; color: #667eea;">📝 Teks Terdeteksi (OCR):</h3>
+                    <div class="ocr-text" id="ocrText"></div>
+
+                    <h3 style="margin-top: 20px; color: #667eea;">📊 Nilai Nutrisi:</h3>
+                    <div class="nutrition-grid" id="nutritionGrid"></div>
+
+                    <div class="status-box" id="statusBox"></div>
+
+                    <div class="chart-container">
+                        <canvas id="probChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demo Section -->
+            <div class="card">
+                <h2>🧪 Demo Minuman</h2>
+                <p style="color: #666; margin-bottom: 20px;">Klik minuman untuk melihat klasifikasi kesehatan</p>
+                
+                <div class="demo-grid" id="demoGrid">
+                    <div class="spinner" style="margin: 50px auto;"></div>
+                </div>
+
+                <button class="button secondary" onclick="loadDemo()" style="width: 100%; margin-top: 20px;">
+                    🔄 Reload Demo
+                </button>
+            </div>
+        </div>
+
+        <footer>
+            <p>Built with ❤️ using Python, Flask, EasyOCR & Machine Learning</p>
+            <p>© 2026 Beverage Health Classifier</p>
+        </footer>
+    </div>
+
+    <script>
+        let probChart = null;
+
+        // Upload area interactions
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.background = '#f0f0ff';
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.background = '#f8f9ff';
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.background = '#f8f9ff';
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                uploadFile();
+            }
+        });
+
+        fileInput.addEventListener('change', uploadFile);
+
+        function uploadFile() {
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            showLoading(true);
+            hideError();
+
+            fetch('/api/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                showLoading(false);
+                if (data.success) {
+                    displayResult(data);
+                } else {
+                    showError(data.error);
+                }
+            })
+            .catch(error => {
+                showLoading(false);
+                showError('Error: ' + error.message);
+            });
+        }
+
+        function displayResult(data) {
+            const uploadResult = document.getElementById('uploadResult');
+            const uploadedImage = document.getElementById('uploadedImage');
+            const ocrText = document.getElementById('ocrText');
+            const nutritionGrid = document.getElementById('nutritionGrid');
+            const statusBox = document.getElementById('statusBox');
+
+            // Display image
+            uploadedImage.src = `/uploads/${data.image}`;
+
+            // Display OCR text
+            ocrText.textContent = data.ocr_text;
+
+            // Display nutrition
+            const nutrition = data.nutrition;
+            nutritionGrid.innerHTML = `
+                <div class="nutrition-item">
+                    <div class="nutrition-value">${nutrition.calories.toFixed(1)}</div>
+                    <div class="nutrition-label">Kalori (kkal)</div>
+                </div>
+                <div class="nutrition-item">
+                    <div class="nutrition-value">${nutrition.sugar.toFixed(1)}</div>
+                    <div class="nutrition-label">Gula (g)</div>
+                </div>
+                <div class="nutrition-item">
+                    <div class="nutrition-value">${nutrition.fat.toFixed(1)}</div>
+                    <div class="nutrition-label">Lemak (g)</div>
+                </div>
+                <div class="nutrition-item">
+                    <div class="nutrition-value">${nutrition.sodium.toFixed(1)}</div>
+                    <div class="nutrition-label">Natrium (mg)</div>
+                </div>
+            `;
+
+            // Display status
+            const result = data.result;
+            const statusClass = result.label.replace(' ', '_');
+            statusBox.className = `status-box ${statusClass}`;
+            statusBox.innerHTML = `
+                <div style="font-size: 2em; margin-bottom: 10px;">${data.icon}</div>
+                <div class="status-label">${result.label.toUpperCase()}</div>
+                <div class="confidence">${result.confidence}% Confidence</div>
+            `;
+
+            // Update chart
+            updateChart(result.probabilities);
+
+            // Show result section
+            uploadResult.classList.add('show');
+        }
+
+        function updateChart(probabilities) {
+            const ctx = document.getElementById('probChart');
+            
+            if (probChart) {
+                probChart.destroy();
+            }
+
+            const labels = Object.keys(probabilities);
+            const data = Object.values(probabilities);
+            const colors = ['#28a745', '#ffc107', '#dc3545'];
+
+            probChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: colors,
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: { size: 12 },
+                                padding: 15
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function showLoading(show) {
+            document.getElementById('loading').classList.toggle('show', show);
+        }
+
+        function showError(message) {
+            const error = document.getElementById('error');
+            error.textContent = message;
+            error.classList.add('show');
+        }
+
+        function hideError() {
+            document.getElementById('error').classList.remove('show');
+        }
+
+        function loadDemo() {
+            fetch('/api/demo')
+                .then(response => response.json())
+                .then(data => {
+                    const demoGrid = document.getElementById('demoGrid');
+                    demoGrid.innerHTML = data.demo_items.map(item => `
+                        <div class="demo-item" onclick="selectDemo('${item.nama}', ${JSON.stringify(item.nutrition)}, '${item.result.label}', '${item.icon}')">
+                            <div class="demo-item-name">${item.icon} ${item.nama}</div>
+                            <div class="demo-item-result">Kalori: ${item.nutrition.calories} kkal</div>
+                            <div class="demo-item-result">Gula: ${item.nutrition.sugar} g</div>
+                            <div class="demo-item-result" style="color: #667eea; font-weight: bold; margin-top: 10px;">
+                                → ${item.result.label}
+                            </div>
+                        </div>
+                    `).join('');
+                });
+        }
+
+        function selectDemo(nama, nutrition, label, icon) {
+            const statusBox = document.getElementById('statusBox');
+            const nutritionGrid = document.getElementById('nutritionGrid');
+            const uploadResult = document.getElementById('uploadResult');
+
+            nutritionGrid.innerHTML = `
+                <div class="nutrition-item">
+                    <div class="nutrition-value">${nutrition.calories.toFixed(1)}</div>
+                    <div class="nutrition-label">Kalori (kkal)</div>
+                </div>
+                <div class="nutrition-item">
+                    <div class="nutrition-value">${nutrition.sugar.toFixed(1)}</div>
+                    <div class="nutrition-label">Gula (g)</div>
+                </div>
+                <div class="nutrition-item">
+                    <div class="nutrition-value">${nutrition.fat.toFixed(1)}</div>
+                    <div class="nutrition-label">Lemak (g)</div>
+                </div>
+                <div class="nutrition-item">
+                    <div class="nutrition-value">${nutrition.sodium.toFixed(1)}</div>
+                    <div class="nutrition-label">Natrium (mg)</div>
+                </div>
+            `;
+
+            statusBox.className = `status-box ${label.replace(' ', '_')}`;
+            statusBox.innerHTML = `
+                <div style="font-size: 2em; margin-bottom: 10px;">${icon}</div>
+                <div class="status-label">${label.toUpperCase()}</div>
+                <div style="font-size: 1.1em; color: #666;">Sample: ${nama}</div>
+            `;
+
+            // Scroll to demo results
+            uploadResult.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Load demo on page load
+        loadDemo();
+    </script>
+</body>
+</html>

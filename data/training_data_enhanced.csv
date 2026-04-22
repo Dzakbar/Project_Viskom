@@ -1,0 +1,69 @@
+nama_minuman,kalori,gula,lemak,natrium,kategori
+Air Mineral 600ml,0,0.0,0.0,5,sehat
+Air Putih 1000ml,0,0.0,0.0,0,sehat
+Aqua 600ml,0,0.0,0.0,5,sehat
+Air Minum Biasa,0,0.0,0.0,0,sehat
+Aquades 500ml,0,0.0,0.0,0,sehat
+Jus Jeruk Segar 250ml,60,14.0,0.0,10,sehat
+Jus Apel Natural 250ml,70,16.0,0.0,8,sehat
+Jus Nanas Segar 250ml,65,15.0,0.0,15,sehat
+Smoothie Pisang 300ml,100,18.0,0.5,15,kurang_sehat
+Jus Buah Campur 250ml,75,17.0,0.0,20,kurang_sehat
+Jus Semangka Segar 300ml,80,16.0,0.0,10,kurang_sehat
+Jus Mangga Segar 250ml,85,18.0,0.0,12,kurang_sehat
+Jus Timun Segar 250ml,30,7.0,0.0,5,sehat
+Teh Botol Sosro 350ml,80,20.0,0.0,0,kurang_sehat
+Teh Pucuk 350ml,90,22.0,0.0,5,kurang_sehat
+Teh Gelas 250ml,70,18.0,0.0,0,kurang_sehat
+Teh Tarik 300ml,100,24.0,0.0,30,kurang_sehat
+Teh Hangat Biasa 250ml,60,15.0,0.0,0,kurang_sehat
+Kopi Hitam Tubruk 200ml,5,0.0,0.2,0,sehat
+Kopi Espresso 30ml,2,0.0,0.0,0,sehat
+Kopi Americano 250ml,10,0.5,0.0,5,sehat
+Kopi dengan Susu 250ml,80,8.0,3.0,50,kurang_sehat
+Kopi Instan 200ml,50,5.0,0.5,10,kurang_sehat
+Susu Putih 200ml,130,11.0,3.5,120,sehat
+Susu Coklat 200ml,150,20.0,3.5,100,kurang_sehat
+Susu Strawberry 200ml,140,18.0,3.5,110,kurang_sehat
+Susu Kental Manis Cair 200ml,200,35.0,5.0,200,tidak_sehat
+Ultramilk 200ml,140,14.0,3.5,120,kurang_sehat
+Greenfield Yogurt 150ml,80,12.0,0.0,100,kurang_sehat
+ABC Drinking Yogurt 200ml,100,15.0,0.0,120,kurang_sehat
+Milkshake Vanilla 300ml,150,25.0,3.5,150,tidak_sehat
+Milkshake Coklat 300ml,160,28.0,4.0,150,tidak_sehat
+Frappucino 250ml,200,40.0,8.0,200,tidak_sehat
+Coca Cola 330ml,140,39.0,0.0,45,tidak_sehat
+Coca Cola 250ml,110,30.0,0.0,35,tidak_sehat
+Sprite 330ml,140,35.0,0.0,75,tidak_sehat
+Sprite 250ml,110,27.0,0.0,60,tidak_sehat
+Fanta Orange 330ml,150,40.0,0.0,50,tidak_sehat
+Fanta Strawberry 330ml,140,36.0,0.0,55,tidak_sehat
+Fanta Anggur 330ml,150,38.0,0.0,60,tidak_sehat
+Pepsi 330ml,140,38.0,0.0,40,tidak_sehat
+Pepsi 250ml,110,30.0,0.0,35,tidak_sehat
+Seven Up 330ml,120,32.0,0.0,60,tidak_sehat
+Limca 330ml,120,32.0,0.0,55,tidak_sehat
+Miranda 330ml,130,34.0,0.0,65,tidak_sehat
+Marjan 200ml,70,17.0,0.0,30,tidak_sehat
+Jus Fruit 330ml,150,40.0,0.0,70,tidak_sehat
+Tango 330ml,140,38.0,0.0,65,tidak_sehat
+Red Bull 250ml,110,27.0,0.0,200,tidak_sehat
+Red Bull 325ml,160,38.0,0.0,250,tidak_sehat
+Monster Energy 355ml,160,37.0,0.0,350,tidak_sehat
+Power Energy 250ml,130,30.0,0.0,220,tidak_sehat
+Krating Daeng 150ml,100,25.0,0.0,150,tidak_sehat
+XL Energy 150ml,120,28.0,0.0,180,tidak_sehat
+Viterna 150ml,120,26.0,0.0,160,tidak_sehat
+Pocari Sweat 500ml,120,28.0,0.0,300,kurang_sehat
+Pocari Sweat 350ml,100,25.0,0.0,280,kurang_sehat
+Gatorade 500ml,130,31.0,0.0,280,kurang_sehat
+Gatorade 350ml,100,25.0,0.0,250,kurang_sehat
+Isotonic 500ml,100,25.0,0.0,270,kurang_sehat
+Tropicana Orange 250ml,70,16.0,0.0,20,sehat
+Minute Maid Orange 250ml,75,17.0,0.0,25,sehat
+Cimory Juice 250ml,80,18.0,0.0,30,kurang_sehat
+Nutri Juice 250ml,85,19.0,0.0,25,kurang_sehat
+Dolphin Juice 200ml,60,14.0,0.0,15,kurang_sehat
+Floridina 250ml,80,18.0,0.0,20,kurang_sehat
+Sunpride Orange 1000ml,120,28.0,0.0,40,tidak_sehat
+Sunkist Orange 250ml,90,20.0,0.0,30,kurang_sehat

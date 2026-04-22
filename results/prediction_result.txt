@@ -1,0 +1,16 @@
+HASIL PREDIKSI KLASIFIKASI MINUMAN
+============================================================
+Image: test_images/label_sample_cocacola.png
+Status: tidak sehat
+Confidence: 83.13%
+
+Nutrisi:
+  calories: 140.0
+  sugar: 39.0
+  fat: 0.0
+  sodium: 45.0
+
+Probabilities:
+  sehat: 1.54%
+  kurang sehat: 15.33%
+  tidak sehat: 83.13%
